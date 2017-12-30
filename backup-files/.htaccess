@@ -1,0 +1,23 @@
+# Do not remove this line or mod_rewrite rules and search engine friendly URLs will stop working
+RewriteBase /
+
+# Mod
+RewriteEngine on
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}\.php -f
+RewriteRule ^(.*)$ $1.php
+RewriteRule ^index\.html$ index.php [T=application/x-httpd-php,L]
+RewriteRule ^data/(.*) dt/$1
+RewriteRule ^([\w\d]{4})$ go.php?to=$1 [L]
+RewriteRule ^([\w\d]{5})$ go.php?to=$1 [L]
+RewriteRule ^([\w\d]{6})$ go.php?to=$1 [L]
+Options -Indexes
+
+# Block Direct Download
+RewriteCond %{HTTP_REFERER} !^%{HTTP_HOST}$ [NC]
+RewriteRule \.(zip|rar|tar|7z|gz|iso|bin|img|jar|psd|mp3|mp4|3gp|flv|mkv|avi|ogg|wav|amr|ktc|ehi|ovpn|doc|docx|xls|xlsx|ppt|pptx|pdf|txt|zw')$ http://www.bagiin.ga/policy/error403 [R,L]
+
+# 404
+ErrorDocument 404 http://bagiin.ga/policy/error404
+# 403
+ErrorDocument 403 http://bagiin.ga/policy/error403 
