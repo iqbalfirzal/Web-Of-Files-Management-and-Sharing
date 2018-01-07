@@ -49,9 +49,9 @@ background: #ffffff url("img/bg.png") no-repeat fixed top;
 		while ($row = mysql_fetch_assoc($query)) {
 			$cekiki = $row['status'];
 			if ($cekiki == "1") {
-			   echo "<b> Link Berbagi Semua File Anda Dibuka Untuk Publik</b><p class='w3-padding-16'><form method='post' action=''><input class='w3-btn' type='submit' name='pateni'value='Tutup Link Berbagi Semua File'/></form></p>";
+			   echo "<b> Link Berbagi Semua File Anda Dibuka Untuk Publik</b><p class='w3-padding-16'><form method='post' action=''><input class='w3-btn' type='submit' name='pateni' value='Tutup Link Berbagi Semua File'/></form></p>";
 			}elseif ($cekiki == "0") {
-			   echo "<b>Link Berbagi Semua File Anda Ditutup Untuk Publik</b><p class='w3-padding-16'><form method='post' action=''><input class='w3-btn' type='submit' name='uripke'value='Buka Link Berbagi Semua File'/></form></p>";
+			   echo "<b>Link Berbagi Semua File Anda Ditutup Untuk Publik</b><p class='w3-padding-16'><form method='post' action=''><input class='w3-btn' type='submit' name='uripke' value='Buka Link Berbagi Semua File'/></form></p>";
 			}else{
 				echo "database error";
 			}
@@ -73,19 +73,37 @@ background: #ffffff url("img/bg.png") no-repeat fixed top;
 	</div>
   </div>
 	<?php
+		require_once "script/lib/mobile-detect/Mobile_Detect.php";
+		$detect = new Mobile_Detect();
 		if($_POST['pateni'])
 		{
 			mysql_query("UPDATE shareall SET status='0' WHERE user='$singnganggo'");
-			echo "<script language='JavaScript'>
+			if ($detect->isMobile()){
+				echo "<script language='JavaScript'>
+						alert('Berhasil Ditutup')
+						window.location = 'index.html';
+					</script>";
+			}
+			else{
+				echo "<script language='JavaScript'>
 					Alert.render('Berhasl Ditutup');
 				</script>";
+			}
 		}
 		else if($_POST['uripke'])
 		{
 			mysql_query("UPDATE shareall SET status='1' WHERE user='$singnganggo'");
-			echo "<script language='JavaScript'>
+			if ($detect->isMobile()){
+				echo "<script language='JavaScript'>
+						alert('Berhasil Dibuka')
+						window.location = 'index.html';
+					</script>";
+			}
+			else{
+				echo "<script language='JavaScript'>
 					Alert.render('Berhasl Dibuka');
 				</script>";
+			}
 		}
 	?>
   <p class="w3-padding-16"><button class="w3-btn" onclick="window.location.href='int/lgot'">Keluar</button></p>
